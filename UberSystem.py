@@ -75,6 +75,14 @@ class UberSystem:
 
         self.__round += 1
 
+        print(
+            f"---------------------Map---------------------"
+        )
+        grid = self.__env.get_grid().copy()
+        for taxi in self.__taxis:
+            grid[taxi.get_pos()[0],taxi.get_pos()[1]] = len(taxi.get_customers())
+        print(grid)
+
     def update_taxis(self):
         """
         Update the taxis in the system
