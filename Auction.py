@@ -18,8 +18,10 @@ class Auction:
         for taxi in self.__taxis:
             if taxi.isfull():
                 continue
-            bids[taxi] = taxi.get_new_utility(customer) - taxi.get_utility()
-            print("taxi: ", taxi.get_id(), " bid: ", bids[taxi])
+            if taxi.get_new_utility(customer) - taxi.get_utility() >0:
+                bids[taxi] = taxi.get_new_utility(customer) - taxi.get_utility()
+                print("taxi: ", taxi.get_id(), " bid: ", bids[taxi])
+            else: print("taxi: ", taxi.get_id(),"did not bid.")
 
         if bids:
             winner_taxi = max(bids, key=bids.get)
@@ -28,6 +30,9 @@ class Auction:
             )
             winner_taxi.add_customer(customer)
             winner_taxi.set_occupied()
+            no_first = [taxi for taxi in bids if taxi != winner_taxi]
+            second_winner = bids[max(no_first, key = bids.get)]if len(no_first)>0 else 0
+            winner_taxi.update_profit(bids[winner_taxi]-second_winner)
             customer.set_taken()
 
         else:

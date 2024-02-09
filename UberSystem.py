@@ -145,6 +145,7 @@ class UberSystem:
                 self.start_auction()
 
             self.simulate_one_turn()
+            self.print_state()
 
     def print_state(self):
         print(
@@ -157,3 +158,7 @@ class UberSystem:
         for customer in self.__customers:
             print(customer)
         print("\n")
+        print("Total Welfare: ",self.get_welfare)
+
+    def get_welfare(self):
+        return sum([taxi.get_profit() for taxi in self.__taxis])

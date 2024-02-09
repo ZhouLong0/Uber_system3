@@ -7,6 +7,7 @@ class Taxi:
         self.__env = env
         self.__customers = []
         self.path = None
+        self.__profit = 0
 
     def get_pos(self):
         return self.__pos
@@ -132,4 +133,10 @@ class Taxi:
         self.path = path
 
     def __repr__(self):
-        return f"Taxi {self.__id} at {self.__pos} with {self.__seats} seats, with customers {self.__customers}"
+        return f"Taxi {self.__id} at {self.__pos} with {self.__seats} seats, with customers {self.__customers}. \nCurrent profit: {self.__profit}"
+    
+    def update_profit(self,profit):
+        self.__profit += profit
+
+    def get_profit(self):
+        return self.__profit

@@ -104,7 +104,7 @@ class Simulation:
 
         return Simulation(env, customers, taxis)
 
-    def simulate(self, num_turns):
+    def simulate(self, num_turns, num_taxis,num_customers):
         self.message_count_per_round = []
         logs = []
         for _ in range (num_turns):
@@ -120,20 +120,26 @@ class Simulation:
 
             sys.stdout = original_stdout
 
-        with open(os.path.join("logs", f"Logs_TaxiAuction.json"), "w") as json_file:
+        with open(os.path.join("logs", f"Logs_{num_taxis}_taxis_{num_customers}_customers.json"), "w") as json_file:
             json.dump({"logs": logs}, json_file, indent=4)
 
 
 if __name__ == "__main__":
     # Save the data to a JSON file
-    num_taxis = 5
-    num_customers = 30
+    random.seed(99)
+    num_taxis = 100
+    num_customers = 20
     Simulation.generate_test_cases(
         num_customers, num_taxis, grid_size=20
     )
 
     # Simulation
-    sim_rec = Simulation.read_from_file("experiment\Customers_30_Taxis_5.json")
-    sim_rec.simulate(50)
+    sim_rec = Simulation.read_from_file(f"experiment\Customers_{num_customers}_Taxis_{num_taxis}.json")
+    sim_rec.simulate(50,num_taxis,num_customers)
+
+    print("number of taxis: ", num_taxis)
+    print("Final Total Welfare: ", sim_rec.uber_system.get_welfare()/num_taxis)
+    print("Final Delivery Time: ", sim_rec.uber_system.get_customer_duration())
 
     # todo: make the grid with obstacles
+    
