@@ -18,6 +18,7 @@ class UberSystem:
         self.__customers = customers
         self.__env = env
         self.__round = 0
+        self.__customer_duration = 0
 
     def get_customers(self):
         return self.__customers
@@ -39,6 +40,9 @@ class UberSystem:
 
     def get_idle_taxis(self):
         return [taxi for taxi in self.__taxis if taxi.is_idle()]
+    
+    def get_customer_duration(self):
+        return self.__customer_duration
 
     def start_auction(self):
         """
@@ -74,6 +78,7 @@ class UberSystem:
         self.update_taxis()
 
         self.__round += 1
+        self.__customer_duration += len(self.__customers)
 
         print(
             f"---------------------Map---------------------"
